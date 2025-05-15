@@ -9,6 +9,9 @@
     "preview": "vite preview",
     "start": "vite preview --host 0.0.0.0 --port $PORT"
   },
+  "dependencies": {
+    "vite": "^6.3.5"
+  },
   "devDependencies": {
     "vite": "^6.3.5"
   }
