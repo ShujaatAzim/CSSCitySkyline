@@ -51,6 +51,8 @@ body {
 
 .controls {
   position: fixed;
+  width: auto;
+  max-width: 300px;
   top: 5%;
   left: 50%;
   transform: translateX(-50%);
@@ -72,13 +74,17 @@ body {
 }
 
 .author {
-  font-size: 14px;
+  font-size: 8px;
   font-family: fantasy;
   margin: 0;
 }
 
 .buttons {
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   gap: 10px;
 }
 
@@ -109,7 +115,8 @@ body.rain-mode {
   overflow: hidden;
 }
 
-body.rain-mode::before {
+body.rain-mode::before
+body.snow-mode::before {
   content: "";
   position: absolute;
   top: 0;
@@ -127,8 +134,26 @@ body.rain-mode::before {
   width: 2px;
   height: 20px;
   background: #4d92b7;
-  animation: fall-slanted 1s infinite linear;
+  animation: rainfall 1s infinite linear;
   opacity: 0.7;
+  pointer-events: none;
+  z-index: 7;
+}
+
+body.snow-mode {
+  position: relative;
+  overflow: hidden;
+}
+
+.snowflake {
+  position: absolute;
+  top: -10px;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  animation: snowfall linear infinite;
+  opacity: 0.8;
   pointer-events: none;
   z-index: 7;
 }
@@ -163,6 +188,46 @@ body.rain-mode::before {
       #ffff66 21%,
       #bbeeff 100%
     );
+}
+
+body.rain-mode .sky::before,
+body.snow-mode .sky::before {
+  content: "";
+  position: absolute;
+  top: 10%;
+  left: 15%;
+  width: 150px;
+  height: 80px;
+  background: rgba(150, 150, 150, 1.0);
+  border-radius: 50px;
+  box-shadow: -20px 20px 0px rgba(120, 120, 120, 1.0), 20px 20px 0px rgba(120, 120, 120, 1.0);
+  opacity: 0.85;
+  z-index: 3;
+  transition: opacity .5s ease, transform 0.5s ease;
+  transform: translateX(0);
+  animation: drift-cloud 6s ease-in-out infinite alternate;
+}
+
+body:not(.dark-mode).rain-mode .sky,
+body:not(.dark-mode).snow-mode .sky {
+  background: radial-gradient(
+    closest-corner circle at 15% 15%,
+    #ffcf33,
+    #ffcf33 20%,
+    #bbbbbb 21%,
+    #bbeeff 100%
+  );
+}
+
+body.rain-mode .sky .dark-mode,
+body.snow-mode .sky .dark-mode {
+  background: radial-gradient(
+    closest-corner circle at 15% 15%,
+      #ccc,
+      #ccc 20%,
+      #445 21%,
+      #223 100%
+  );
 }
 
 /* BACKGROUND BUILDINGS - "bb" stands for "background building" */
@@ -501,7 +566,7 @@ body.rain-mode::before {
   }
 }
 
-@keyframes fall-slanted {
+@keyframes rainfall {
   0% {
     transform: translate(10vw, -100vh) rotate(15deg);
     opacity: 0.2;
@@ -511,6 +576,26 @@ body.rain-mode::before {
   }
   100% {
     transform: translate(-10vw, 100vh) rotate(15deg);
-    opacity: 0.3;
+    opacity: 0.5;
+  }
+}
+
+@keyframes snowfall {
+  0% {
+    transform: translateY(-100vh);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0.5;
+  }
+}
+
+@keyframes drift-cloud {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(20px);
   }
 }

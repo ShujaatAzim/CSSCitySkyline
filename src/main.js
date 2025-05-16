@@ -3,6 +3,7 @@ import './styles.css'
 const toggleButton = document.getElementById("toggle-mode");
 const toggleNeon = document.getElementById("toggle-neon");
 const toggleRain = document.getElementById("toggle-rain");
+const toggleSnow = document.getElementById("toggle-snow")
 
 toggleButton.addEventListener("click", function() {
   document.body.classList.toggle("dark-mode");
@@ -29,12 +30,33 @@ if (document.body.classList.contains("dark-mode")) {
 }
 
 toggleRain.addEventListener("click", function() {
+  if (document.body.classList.contains("snow-mode")) {
+    stopSnow();
+    toggleSnow.textContent = "Snowy Mode";
+    document.body.classList.remove("snow-mode");
+  }
+
   document.body.classList.toggle("rain-mode");
   toggleRain.textContent = document.body.classList.contains("rain-mode") ? "Stop Rain" : "Rainy Mode";
   if (document.body.classList.contains("rain-mode")) {
     startRain();
   } else {
     stopRain();
+  }
+});
+
+toggleSnow.addEventListener("click", function() {
+  if (document.body.classList.contains("rain-mode")) {
+    stopRain();
+    toggleRain.textContent = "Rainy Mode";
+    document.body.classList.remove("rain-mode");
+  }
+  document.body.classList.toggle("snow-mode");
+  toggleSnow.textContent = document.body.classList.contains("snow-mode") ? "Stop Snow" : "Snowy Mode";
+  if (document.body.classList.contains("snow-mode")) {
+    startSnow();
+  } else {
+    stopSnow();
   }
 });
 
@@ -51,4 +73,22 @@ function startRain() {
 
 function stopRain() {
   document.querySelectorAll(".drop").forEach(drop => drop.remove());
+}
+
+function startSnow() {
+  stopSnow();
+  for (let i = 0; i < 200; i++) {
+    const snowflake = document.createElement("div");
+    snowflake.classList.add("snowflake");
+    snowflake.style.left = `${Math.random() * 100}vw`;
+    snowflake.style.width = `${Math.random() * 5 + 2}px`;
+    snowflake.style.height = snowflake.style.width;
+    snowflake.style.animationDuration = `${Math.random() * 5 + 3}s`;
+    snowflake.style.animationDelay = `${Math.random() * 3}s`;
+    document.body.appendChild(snowflake);
+  }
+}
+
+function stopSnow() {
+  document.querySelectorAll(".snowflake").forEach(snowflake => snowflake.remove());
 }
