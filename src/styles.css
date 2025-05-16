@@ -190,6 +190,19 @@ body.snow-mode {
     );
 }
 
+.cloud {
+  position: absolute;
+  top: 0;
+  background: rgba(150, 150, 150, 0.9);
+  border-radius: 50px;
+  box-shadow: -20px 20px 0px rgba(120, 120, 120, 0.8), 20px 20px 0px rgba(120, 120, 120, 0.8);
+  opacity: 1;
+  pointer-events: none;
+  z-index: 3;
+  animation: drift-cloud 6s ease-in-out infinite alternate;
+  display: none;
+}
+
 body.rain-mode .sky::before,
 body.snow-mode .sky::before {
   content: "";

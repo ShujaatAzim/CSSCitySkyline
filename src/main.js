@@ -40,8 +40,10 @@ toggleRain.addEventListener("click", function() {
   toggleRain.textContent = document.body.classList.contains("rain-mode") ? "Stop Rain" : "Rainy Mode";
   if (document.body.classList.contains("rain-mode")) {
     startRain();
+    startClouds();
   } else {
     stopRain();
+    stopClouds();
   }
 });
 
@@ -55,8 +57,10 @@ toggleSnow.addEventListener("click", function() {
   toggleSnow.textContent = document.body.classList.contains("snow-mode") ? "Stop Snow" : "Snowy Mode";
   if (document.body.classList.contains("snow-mode")) {
     startSnow();
+    startClouds();
   } else {
     stopSnow();
+    stopClouds();
   }
 });
 
@@ -65,6 +69,7 @@ function startRain() {
   for (let i = 0; i < 250; i++) {
     const drop = document.createElement("div");
     drop.classList.add("drop");
+
     drop.style.left = `${Math.random() * 100}vw`;
     drop.style.animationDuration = `${Math.random() * 0.8 + 0.5}s`;
     document.body.appendChild(drop);
@@ -80,6 +85,7 @@ function startSnow() {
   for (let i = 0; i < 200; i++) {
     const snowflake = document.createElement("div");
     snowflake.classList.add("snowflake");
+
     snowflake.style.left = `${Math.random() * 100}vw`;
     snowflake.style.width = `${Math.random() * 5 + 2}px`;
     snowflake.style.height = snowflake.style.width;
@@ -91,4 +97,27 @@ function startSnow() {
 
 function stopSnow() {
   document.querySelectorAll(".snowflake").forEach(snowflake => snowflake.remove());
+}
+
+// Cloud Generation Function
+function startClouds() {
+  if (document.querySelectorAll(".cloud").length > 0) return;
+  stopClouds();
+  for (let i = 0; i < 10; i++) {
+    const cloud = document.createElement("div");
+    cloud.classList.add("cloud");
+
+    cloud.style.width = `${Math.random() * 200 + 100}px`;
+    cloud.style.height = `${Math.random() * 80 + 40}px`;
+    cloud.style.top = `${Math.random() * 10}vh`;
+    cloud.style.left = `${Math.random() * 100}vw`;
+    cloud.style.display = "block";
+
+    document.body.appendChild(cloud);
+  }
+}
+
+// Function to Clear Clouds
+function stopClouds() {
+  document.querySelectorAll(".cloud").forEach(cloud => cloud.remove());
 }
